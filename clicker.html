@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clicker Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin-top: 20px;
+        }
+        #count {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Clicker Game</h1>
+    <button id="clickButton">Click me!</button>
+    <div id="count">Clicks: 0</div>
+
+    <script>
+        let count = 0;
+        const userId = new URLSearchParams(window.location.search).get('user_id');
+        document.getElementById('clickButton').addEventListener('click', () => {
+            count++;
+            document.getElementById('count').innerText = `Clicks: ${count}`;
+        });
+
+        window.addEventListener('beforeunload', () => {
+            fetch(`https://api.telegram.org/bot<6469687404:AAEX_go4bLMGEmAzS7GrYi_0qdtHjQmx6HU>/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: userId,
+                    text: `Вы натапали ${count} монет!`
+                })
+            });
+        });
+    </script>
+</body>
+</html>
